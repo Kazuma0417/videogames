@@ -76,226 +76,264 @@
         .language-selector {
             @apply ml-4 px-3 py-1 rounded-md text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 cursor-pointer;
         }
+        .password-overlay {
+            @apply fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-[100];
+        }
+        .password-box {
+            /* Changed max-w-sm to max-w-md for larger size */
+            @apply bg-white p-10 rounded-2xl shadow-2xl text-center max-w-md w-full;
+        }
+        .password-input {
+            @apply mt-4 p-3 border-2 border-blue-300 rounded-lg w-full text-lg text-center focus:outline-none focus:ring-2 focus:ring-blue-500;
+        }
+        .password-button {
+            @apply mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-colors transform hover:scale-105;
+        }
+        .password-message {
+            @apply mt-4 text-red-600 text-sm font-semibold;
+        }
+        .password-prompt-title {
+            @apply text-3xl font-extrabold text-blue-700 mb-2;
+        }
+        .password-prompt-subtitle {
+            @apply text-gray-700 mb-6;
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav id="navbar" class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="font-bold text-xl text-blue-700" data-key="navTitle">Sleep & Gaming</span>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#introduction" class="nav-link" data-key="navIntro">Introduction</a>
-                        <a href="#how-it-affects" class="nav-link" data-key="navAffects">How Games Affect Sleep</a>
-                        <a href="#consequences" class="nav-link" data-key="navConsequences">Consequences</a>
-                        <a href="#strategies" class="nav-link" data-key="navStrategies">Strategies</a>
-                        <a href="#conclusion" class="nav-link" data-key="navConclusion">Conclusion</a>
-                        <select id="language-switcher" class="language-selector">
-                            <option value="en">English</option>
-                            <option value="ja">日本語</option>
-                        </select>
+    <div id="password-overlay" class="password-overlay">
+        <div class="password-box">
+            <h2 class="password-prompt-title" data-key="passwordPromptTitle">Enter Password</h2>
+            <p class="password-prompt-subtitle" data-key="passwordPromptSubtitle">Please enter the password to access the content.</p>
+            <input type="password" id="password-input" class="password-input" placeholder="">
+            <button id="password-submit" class="password-button" data-key="passwordSubmitButton">Enter</button>
+            <p id="password-message" class="password-message"></p>
+            <select id="password-language-switcher" class="language-selector mt-6 mx-auto">
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="main-content-wrapper" class="hidden">
+        <nav id="navbar" class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <span class="font-bold text-xl text-blue-700" data-key="navTitle">Sleep & Gaming</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#introduction" class="nav-link" data-key="navIntro">Introduction</a>
+                            <a href="#how-it-affects" class="nav-link" data-key="navAffects">How Games Affect Sleep</a>
+                            <a href="#consequences" class="nav-link" data-key="navConsequences">Consequences</a>
+                            <a href="#strategies" class="nav-link" data-key="navStrategies">Strategies</a>
+                            <a href="#conclusion" class="nav-link" data-key="navConclusion">Conclusion</a>
+                            <select id="language-switcher" class="language-selector">
+                                <option value="en">English</option>
+                                <option value="ja">日本語</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button type="button" id="mobile-menu-button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="sr-only" data-key="openMenu">Open main menu</span>
+                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" id="mobile-menu-button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only" data-key="openMenu">Open main menu</span>
-                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+            </div>
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#introduction" class="nav-link block" data-key="navIntro">Introduction</a>
+                    <a href="#how-it-affects" class="nav-link block" data-key="navAffects">How Games Affect Sleep</a>
+                    <a href="#consequences" class="nav-link block" data-key="navConsequences">Consequences</a>
+                    <a href="#strategies" class="nav-link block" data-key="navStrategies">Strategies</a>
+                    <a href="#conclusion" class="nav-link block" data-key="navConclusion">Conclusion</a>
+                    <select id="mobile-language-switcher" class="language-selector w-full">
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#introduction" class="nav-link block" data-key="navIntro">Introduction</a>
-                <a href="#how-it-affects" class="nav-link block" data-key="navAffects">How Games Affect Sleep</a>
-                <a href="#consequences" class="nav-link block" data-key="navConsequences">Consequences</a>
-                <a href="#strategies" class="nav-link block" data-key="navStrategies">Strategies</a>
-                <a href="#conclusion" class="nav-link block" data-key="navConclusion">Conclusion</a>
-                <select id="mobile-language-switcher" class="language-selector w-full">
-                    <option value="en">English</option>
-                    <option value="ja">日本語</option>
-                </select>
+        </nav>
+
+        <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4" data-key="headerTitle">The Unseen Controller: Video Games and Your Sleep</h1>
+                <p class="text-lg md:text-xl mb-8" data-key="headerSubtitle">Discover how gaming impacts your rest and learn strategies for a healthier balance.</p>
+                <a href="#introduction" class="bg-white text-blue-700 font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-blue-50 transition-colors text-lg" data-key="learnMore">Learn More</a>
             </div>
-        </div>
-    </nav>
+        </header>
 
-    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4 text-center">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4" data-key="headerTitle">The Unseen Controller: Video Games and Your Sleep</h1>
-            <p class="text-lg md:text-xl mb-8" data-key="headerSubtitle">Discover how gaming impacts your rest and learn strategies for a healthier balance.</p>
-            <a href="#introduction" class="bg-white text-blue-700 font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-blue-50 transition-colors text-lg" data-key="learnMore">Learn More</a>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-16">
-        <section id="introduction" class="pt-16">
-            <h2 class="section-title" data-key="introSectionTitle">Welcome: Understanding the Connection</h2>
-            <div class="card">
-                <p class="text-lg leading-relaxed text-gray-700" data-key="introText">
-                    This interactive guide explores the intricate relationship between video gaming and sleep. Video games are a beloved pastime for millions, offering entertainment, cognitive challenges, and social connections. However, it's increasingly important to understand how this engaging activity can influence our sleep patterns and overall well-being. Here, we'll delve into the science behind how gaming affects sleep, explore potential negative consequences of imbalance, and provide actionable strategies to help you enjoy gaming responsibly while prioritizing healthy rest. Our goal is to empower you with knowledge to make informed choices for a balanced lifestyle.
-                </p>
-            </div>
-        </section>
-
-        <section id="how-it-affects" class="pt-16">
-            <h2 class="section-title" data-key="howAffectsSectionTitle">How Video Games Can Affect Sleep</h2>
-            <p class="text-center text-lg text-gray-600 mb-12" data-key="howAffectsIntro">Video games can influence our sleep in several key ways, from the light emitted by screens to the excitement of gameplay. Understanding these mechanisms is the first step towards mitigating potential negative impacts and ensuring that gaming remains a positive part of life without compromising essential rest.</p>
-            <div class="grid md:grid-cols-2 gap-8">
+        <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-16">
+            <section id="introduction" class="pt-16">
+                <h2 class="section-title" data-key="introSectionTitle">Welcome: Understanding the Connection</h2>
                 <div class="card">
-                    <div class="flex items-start">
-                        <span class="icon-placeholder">💡</span>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="blueLightTitle">1. Blue Light Exposure</h3>
-                            <p class="text-gray-700" data-key="blueLightText">Modern electronic devices emit blue light, which can suppress melatonin production, a hormone crucial for regulating sleep-wake cycles. This can delay sleep onset and disrupt your natural circadian rhythm, making it harder to fall asleep and wake up refreshed.</p>
-                            <button class="quick-fact-toggle" data-target="blue-light-fact" data-key="showFact">Show Quick Fact</button>
-                            <div id="blue-light-fact" class="quick-fact-content hidden">
-                                <strong data-key="quickFactStrong">Quick Fact:</strong> <span data-key="quickFactText">Melatonin is often called the "sleep hormone." Its production naturally increases in the evening to prepare your body for sleep. Blue light tricks your brain into thinking it's still daytime.</span>
+                    <p class="text-lg leading-relaxed text-gray-700" data-key="introText">
+                        This interactive guide explores the intricate relationship between video gaming and sleep. Video games are a beloved pastime for millions, offering entertainment, cognitive challenges, and social connections. However, it's increasingly important to understand how this engaging activity can influence our sleep patterns and overall well-being. Here, we'll delve into the science behind how gaming affects sleep, explore potential negative consequences of imbalance, and provide actionable strategies to help you enjoy gaming responsibly while prioritizing healthy rest. Our goal is to empower you with knowledge to make informed choices for a balanced lifestyle.
+                    </p>
+                </div>
+            </section>
+
+            <section id="how-it-affects" class="pt-16">
+                <h2 class="section-title" data-key="howAffectsSectionTitle">How Video Games Can Affect Sleep</h2>
+                <p class="text-center text-lg text-gray-600 mb-12" data-key="howAffectsIntro">Video games can influence our sleep in several key ways, from the light emitted by screens to the excitement of gameplay. Understanding these mechanisms is the first step towards mitigating potential negative impacts and ensuring that gaming remains a positive part of life without compromising essential rest.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card">
+                        <div class="flex items-start">
+                            <span class="icon-placeholder">💡</span>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="blueLightTitle">1. Blue Light Exposure</h3>
+                                <p class="text-gray-700" data-key="blueLightText">Modern electronic devices emit blue light, which can suppress melatonin production, a hormone crucial for regulating sleep-wake cycles. This can delay sleep onset and disrupt your natural circadian rhythm, making it harder to fall asleep and wake up refreshed.</p>
+                                <button class="quick-fact-toggle" data-target="blue-light-fact" data-key="showFact">Show Quick Fact</button>
+                                <div id="blue-light-fact" class="quick-fact-content hidden">
+                                    <strong data-key="quickFactStrong">Quick Fact:</strong> <span data-key="quickFactText">Melatonin is often called the "sleep hormone." Its production naturally increases in the evening to prepare your body for sleep. Blue light tricks your brain into thinking it's still daytime.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="flex items-start">
+                            <span class="icon-placeholder">🧠</span>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="cognitiveArousalTitle">2. Cognitive Arousal & Stimulation</h3>
+                                <p class="text-gray-700" data-key="cognitiveArousalText">Fast-paced, competitive, or highly engaging games increase cognitive arousal. This means elevated heart rate, heightened brain activity, and increased alertness. Your body enters a "fight or flight" like state, making it difficult to wind down and transition into a restful sleep state.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="flex items-start">
+                            <span class="icon-placeholder">⏰</span>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="timeDisplacementTitle">3. Time Displacement</h3>
+                                <p class="text-gray-700" data-key="timeDisplacementText">One of the most direct impacts is simply losing track of time. Engaging gameplay can lead to extended sessions late into the night, directly sacrificing sleep hours. This "time displacement" can quickly lead to sleep debt and its associated problems.</p>
+                                <div class="chart-container mt-4">
+                                    <canvas id="timeDisplacementChart"></canvas>
+                                </div>
+                                 <p class="text-xs text-center text-gray-500 mt-2" data-key="timeChartCaption">Illustrative chart showing how gaming can reduce sleep hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="flex items-start">
+                            <span class="icon-placeholder">😟</span>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="contentImpactTitle">4. Content and Emotional Impact</h3>
+                                <p class="text-gray-700" data-key="contentImpactText">The type of game matters. Intense, violent, or horror games can increase anxiety or even lead to nightmares for some individuals, disturbing sleep quality. Even highly competitive games can leave you feeling agitated or replaying scenarios in your mind, hindering relaxation.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="flex items-start">
-                        <span class="icon-placeholder">🧠</span>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="cognitiveArousalTitle">2. Cognitive Arousal & Stimulation</h3>
-                            <p class="text-gray-700" data-key="cognitiveArousalText">Fast-paced, competitive, or highly engaging games increase cognitive arousal. This means elevated heart rate, heightened brain activity, and increased alertness. Your body enters a "fight or flight" like state, making it difficult to wind down and transition into a restful sleep state.</p>
+            </section>
+
+            <section id="consequences" class="pt-16">
+                <h2 class="section-title" data-key="consequencesSectionTitle">Potential Negative Consequences</h2>
+                <p class="text-center text-lg text-gray-600 mb-12" data-key="consequencesIntro">Chronic sleep deprivation resulting from excessive or poorly timed gaming can have a wide range of negative effects on both mental and physical health. Recognizing these potential consequences is vital for understanding the importance of balancing gaming with adequate, quality sleep. Below, explore some key areas impacted by insufficient rest.</p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800" data-key="areasAffectedTitle">Key Areas Affected:</h3>
+                        <ul id="consequences-list" class="space-y-2">
+                            <li class="consequence-item" data-key="consequence1" data-detail-en="Difficulty remembering information, focusing on tasks, and making decisions. Overall mental sharpness can decline." data-detail-ja="情報の記憶、タスクへの集中、意思決定が困難になります。全体的な精神的鋭敏さが低下する可能性があります。">
+                                <strong data-key="consequence1Strong">Decreased Cognitive Function</strong>
+                                <div class="consequence-detail hidden" data-key="consequence1Detail">Difficulty remembering information, focusing on tasks, and making decisions. Overall mental sharpness can decline.</div>
+                            </li>
+                            <li class="consequence-item" data-key="consequence2" data-detail-en="Higher levels of irritability, mood swings, stress, anxiety, and an increased risk of developing depression." data-detail-ja="イライラ、気分のむら、ストレス、不安が高まり、うつ病を発症するリスクが増加します。">
+                                <strong data-key="consequence2Strong">Mood Disturbances</strong>
+                                <div class="consequence-detail hidden" data-key="consequence2Detail">Higher levels of irritability, mood swings, stress, anxiety, and an increased risk of developing depression.</div>
+                            </li>
+                            <li class="consequence-item" data-key="consequence3" data-detail-en="A weakened immune system making you more susceptible to illness, plus increased risks of obesity, diabetes, and cardiovascular problems." data-detail-ja="免疫システムが弱まり、病気にかかりやすくなるほか、肥満、糖尿病、心血管疾患のリスクが増加します。">
+                                <strong data-key="consequence3Strong">Physical Health Issues</strong>
+                                <div class="consequence-detail hidden" data-key="consequence3Detail">A weakened immune system making you more susceptible to illness, plus increased risks of obesity, diabetes, and cardiovascular problems.</div>
+                            </li>
+                            <li class="consequence-item" data-key="consequence4" data-detail-en="Lower grades in school, reduced productivity at work, and difficulty meeting daily responsibilities." data-detail-ja="学校の成績が低下し、仕事の生産性が低下し、日々の責任を果たすのが困難になります。">
+                                <strong data-key="consequence4Strong">Reduced Performance</strong>
+                                <div class="consequence-detail hidden" data-key="consequence4Detail">Lower grades in school, reduced productivity at work, and difficulty meeting daily responsibilities.</div>
+                            </li>
+                             <li class="consequence-item" data-key="consequence5" data-detail-en="Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities." data-detail-ja="反応速度の低下や判断力の低下は、運転中やその他の日常活動における事故のリスクを高める可能性があります。">
+                                <strong data-key="consequence5Strong">Increased Accidents</strong>
+                                <div class="consequence-detail hidden" data-key="consequence5Detail">Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities.</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                         <h3 class="text-xl font-semibold mb-4 text-center text-gray-800" data-key="impactSeverityTitle">Illustrative Impact Severity</h3>
+                        <div class="chart-container">
+                            <canvas id="consequencesChart"></canvas>
                         </div>
+                        <p class="text-xs text-center text-gray-500 mt-2" data-key="consequencesChartCaption">Illustrative radar chart showing potential severity of consequences.</p>
                     </div>
                 </div>
+            </section>
+
+            <section id="strategies" class="pt-16">
+                <h2 class="section-title" data-key="strategiesSectionTitle">Strategies for Healthy Gaming and Sleep</h2>
+                <p class="text-center text-lg text-gray-600 mb-12" data-key="strategiesIntro">Enjoying video games and getting good sleep don't have to be mutually exclusive. By implementing some mindful strategies, you can maintain a healthy balance. This section offers practical tips to help you manage your gaming habits in a way that supports, rather than hinders, your sleep. Consider which of these you can incorporate into your routine.</p>
                 <div class="card">
-                    <div class="flex items-start">
-                        <span class="icon-placeholder">⏰</span>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="timeDisplacementTitle">3. Time Displacement</h3>
-                            <p class="text-gray-700" data-key="timeDisplacementText">One of the most direct impacts is simply losing track of time. Engaging gameplay can lead to extended sessions late into the night, directly sacrificing sleep hours. This "time displacement" can quickly lead to sleep debt and its associated problems.</p>
-                            <div class="chart-container mt-4">
-                                <canvas id="timeDisplacementChart"></canvas>
-                            </div>
-                             <p class="text-xs text-center text-gray-500 mt-2" data-key="timeChartCaption">Illustrative chart showing how gaming can reduce sleep hours.</p>
-                        </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800" data-key="checklistTitle">Your Healthy Gaming Checklist:</h3>
+                    <div id="strategies-checklist" class="space-y-3">
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="no-screen-rule">
+                            <span data-key="strategy1">Establish a "No-Screen" Rule Before Bed (1-2 hours prior)</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="blue-light-filters">
+                            <span data-key="strategy2">Use Blue Light Filters or Glasses in the evening</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="time-limits">
+                            <span data-key="strategy3">Set and Stick to Gaming Time Limits, especially on weekdays</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="bedtime-routine">
+                            <span data-key="strategy4">Create a Relaxing Bedtime Routine (reading, bath, quiet music)</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="prioritize-sleep">
+                            <span data-key="strategy5">Consciously Prioritize Sleep over "just one more game"</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="choose-content">
+                            <span data-key="strategy6">Choose Less Stimulating Game Content in the evening</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="bedroom-environment">
+                            <span data-key="strategy7">Keep your Bedroom Dark, Quiet, and Cool for optimal sleep</span>
+                        </label>
+                        <label class="strategy-item">
+                            <input type="checkbox" name="strategy" value="avoid-caffeine">
+                            <span data-key="strategy8">Avoid Caffeine and Large Meals close to bedtime</span>
+                        </label>
                     </div>
+                    <button id="save-strategies-button" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors" data-key="saveIntentions">Save My Intentions</button>
+                    <p id="strategies-feedback" class="mt-3 text-sm text-green-600"></p>
                 </div>
+            </section>
+
+            <section id="conclusion" class="pt-16 pb-16">
+                <h2 class="section-title" data-key="conclusionSectionTitle">Finding Your Balance</h2>
                 <div class="card">
-                    <div class="flex items-start">
-                        <span class="icon-placeholder">😟</span>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800" data-key="contentImpactTitle">4. Content and Emotional Impact</h3>
-                            <p class="text-gray-700" data-key="contentImpactText">The type of game matters. Intense, violent, or horror games can increase anxiety or even lead to nightmares for some individuals, disturbing sleep quality. Even highly competitive games can leave you feeling agitated or replaying scenarios in your mind, hindering relaxation.</p>
-                        </div>
-                    </div>
+                    <p class="text-lg leading-relaxed text-gray-700 mb-4" data-key="conclusionText1">
+                        Video games offer a world of excitement, challenge, and connection. Like any engaging activity, moderation and mindfulness are key to ensuring they remain a positive force in your life. Understanding how gaming can affect your sleep is the first step towards building healthier habits.
+                    </p>
+                    <p class="text-lg leading-relaxed text-gray-700" data-key="conclusionText2">
+                        By implementing strategies such as setting time limits, creating a screen-free wind-down period before bed, and being conscious of game content, you can continue to enjoy gaming without sacrificing the crucial restorative power of sleep. Prioritizing your sleep is an investment in your overall health, mood, and performance. Aim for a balance that allows you to thrive both in your virtual adventures and in your daily life.
+                    </p>
                 </div>
-            </div>
-        </section>
+            </section>
+        </main>
 
-        <section id="consequences" class="pt-16">
-            <h2 class="section-title" data-key="consequencesSectionTitle">Potential Negative Consequences</h2>
-            <p class="text-center text-lg text-gray-600 mb-12" data-key="consequencesIntro">Chronic sleep deprivation resulting from excessive or poorly timed gaming can have a wide range of negative effects on both mental and physical health. Recognizing these potential consequences is vital for understanding the importance of balancing gaming with adequate, quality sleep. Below, explore some key areas impacted by insufficient rest.</p>
-            <div class="grid md:grid-cols-2 gap-8 items-start">
-                <div class="card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800" data-key="areasAffectedTitle">Key Areas Affected:</h3>
-                    <ul id="consequences-list" class="space-y-2">
-                        <li class="consequence-item" data-key="consequence1" data-detail-en="Difficulty remembering information, focusing on tasks, and making decisions. Overall mental sharpness can decline." data-detail-ja="情報の記憶、タスクへの集中、意思決定が困難になります。全体的な精神的鋭敏さが低下する可能性があります。">
-                            <strong data-key="consequence1Strong">Decreased Cognitive Function</strong>
-                            <div class="consequence-detail hidden" data-key="consequence1Detail">Difficulty remembering information, focusing on tasks, and making decisions. Overall mental sharpness can decline.</div>
-                        </li>
-                        <li class="consequence-item" data-key="consequence2" data-detail-en="Higher levels of irritability, mood swings, stress, anxiety, and an increased risk of developing depression." data-detail-ja="イライラ、気分のむら、ストレス、不安が高まり、うつ病を発症するリスクが増加します。">
-                            <strong data-key="consequence2Strong">Mood Disturbances</strong>
-                            <div class="consequence-detail hidden" data-key="consequence2Detail">Higher levels of irritability, mood swings, stress, anxiety, and an increased risk of developing depression.</div>
-                        </li>
-                        <li class="consequence-item" data-key="consequence3" data-detail-en="A weakened immune system making you more susceptible to illness, plus increased risks of obesity, diabetes, and cardiovascular problems." data-detail-ja="免疫システムが弱まり、病気にかかりやすくなるほか、肥満、糖尿病、心血管疾患のリスクが増加します。">
-                            <strong data-key="consequence3Strong">Physical Health Issues</strong>
-                            <div class="consequence-detail hidden" data-key="consequence3Detail">A weakened immune system making you more susceptible to illness, plus increased risks of obesity, diabetes, and cardiovascular problems.</div>
-                        </li>
-                        <li class="consequence-item" data-key="consequence4" data-detail-en="Lower grades in school, reduced productivity at work, and difficulty meeting daily responsibilities." data-detail-ja="学校の成績が低下し、仕事の生産性が低下し、日々の責任を果たすのが困難になります。">
-                            <strong data-key="consequence4Strong">Reduced Performance</strong>
-                            <div class="consequence-detail hidden" data-key="consequence4Detail">Lower grades in school, reduced productivity at work, and difficulty meeting daily responsibilities.</div>
-                        </li>
-                         <li class="consequence-item" data-key="consequence5" data-detail-en="Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities." data-detail-ja="反応速度の低下や判断力の低下は、運転中やその他の日常活動における事故のリスクを高める可能性があります。">
-                            <strong data-key="consequence5Strong">Increased Accidents</strong>
-                            <div class="consequence-detail hidden" data-key="consequence5Detail">Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities.</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card">
-                     <h3 class="text-xl font-semibold mb-4 text-center text-gray-800" data-key="impactSeverityTitle">Illustrative Impact Severity</h3>
-                    <div class="chart-container">
-                        <canvas id="consequencesChart"></canvas>
-                    </div>
-                    <p class="text-xs text-center text-gray-500 mt-2" data-key="consequencesChartCaption">Illustrative radar chart showing potential severity of consequences.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="strategies" class="pt-16">
-            <h2 class="section-title" data-key="strategiesSectionTitle">Strategies for Healthy Gaming and Sleep</h2>
-            <p class="text-center text-lg text-gray-600 mb-12" data-key="strategiesIntro">Enjoying video games and getting good sleep don't have to be mutually exclusive. By implementing some mindful strategies, you can maintain a healthy balance. This section offers practical tips to help you manage your gaming habits in a way that supports, rather than hinders, your sleep. Consider which of these you can incorporate into your routine.</p>
-            <div class="card">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800" data-key="checklistTitle">Your Healthy Gaming Checklist:</h3>
-                <div id="strategies-checklist" class="space-y-3">
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="no-screen-rule">
-                        <span data-key="strategy1">Establish a "No-Screen" Rule Before Bed (1-2 hours prior)</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="blue-light-filters">
-                        <span data-key="strategy2">Use Blue Light Filters or Glasses in the evening</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="time-limits">
-                        <span data-key="strategy3">Set and Stick to Gaming Time Limits, especially on weekdays</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="bedtime-routine">
-                        <span data-key="strategy4">Create a Relaxing Bedtime Routine (reading, bath, quiet music)</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="prioritize-sleep">
-                        <span data-key="strategy5">Consciously Prioritize Sleep over "just one more game"</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="choose-content">
-                        <span data-key="strategy6">Choose Less Stimulating Game Content in the evening</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="bedroom-environment">
-                        <span data-key="strategy7">Keep your Bedroom Dark, Quiet, and Cool for optimal sleep</span>
-                    </label>
-                    <label class="strategy-item">
-                        <input type="checkbox" name="strategy" value="avoid-caffeine">
-                        <span data-key="strategy8">Avoid Caffeine and Large Meals close to bedtime</span>
-                    </label>
-                </div>
-                <button id="save-strategies-button" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors" data-key="saveIntentions">Save My Intentions</button>
-                <p id="strategies-feedback" class="mt-3 text-sm text-green-600"></p>
-            </div>
-        </section>
-
-        <section id="conclusion" class="pt-16 pb-16">
-            <h2 class="section-title" data-key="conclusionSectionTitle">Finding Your Balance</h2>
-            <div class="card">
-                <p class="text-lg leading-relaxed text-gray-700 mb-4" data-key="conclusionText1">
-                    Video games offer a world of excitement, challenge, and connection. Like any engaging activity, moderation and mindfulness are key to ensuring they remain a positive force in your life. Understanding how gaming can affect your sleep is the first step towards building healthier habits.
-                </p>
-                <p class="text-lg leading-relaxed text-gray-700" data-key="conclusionText2">
-                    By implementing strategies such as setting time limits, creating a screen-free wind-down period before bed, and being conscious of game content, you can continue to enjoy gaming without sacrificing the crucial restorative power of sleep. Prioritizing your sleep is an investment in your overall health, mood, and performance. Aim for a balance that allows you to thrive both in your virtual adventures and in your daily life.
-                </p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-gray-800 text-white py-8 text-center">
-        <p data-key="footerCopyright">&copy; <span id="currentYear"></span> Interactive Guide: Sleep & Gaming. All rights reserved (for educational purposes).</p>
-        <p class="text-sm text-gray-400" data-key="footerAttribution">Content adapted from "The Relationship Between Sleep and Video Games" presentation.</p>
-    </footer>
+        <footer class="bg-gray-800 text-white py-8 text-center">
+            <p id="footer-copyright-text" data-key="footerCopyright"></p>
+            <p class="text-sm text-gray-400" data-key="footerAttribution">Content adapted from "The Relationship Between Sleep and Video Games" presentation.</p>
+        </footer>
+    </div>
 
     <script>
         // Language content
@@ -360,7 +398,11 @@
                 conclusionText1: "Video games offer a world of excitement, challenge, and connection. Like any engaging activity, moderation and mindfulness are key to ensuring they remain a positive force in your life. Understanding how gaming can affect your sleep is the first step towards building healthier habits.",
                 conclusionText2: "By implementing strategies such as setting time limits, creating a screen-free wind-down period before bed, and being conscious of game content, you can continue to enjoy gaming without sacrificing the crucial restorative power of sleep. Prioritizing your sleep is an investment in your overall health, mood, and performance. Aim for a balance that allows you to thrive both in your virtual adventures and in your daily life.",
                 footerCopyright: "&copy; <span id=\"currentYear\"></span> Interactive Guide: Sleep & Gaming. All rights reserved (for educational purposes).",
-                footerAttribution: "Content adapted from \"The Relationship Between Sleep and Video Games\" presentation."
+                footerAttribution: "Content adapted from \"The Relationship Between Sleep and Video Games\" presentation.",
+                passwordPromptTitle: "Enter Password",
+                passwordPromptSubtitle: "Please enter the password to access the content.",
+                passwordSubmitButton: "Enter",
+                passwordIncorrect: "Incorrect password. Please try again.",
             },
             ja: {
                 navTitle: "睡眠とゲーム",
@@ -408,7 +450,7 @@
                 strategiesSectionTitle: "健康的なゲーム習慣のための戦略",
                 strategiesIntro: "ビデオゲームを楽しむことと質の良い睡眠をとることは、必ずしも両立しないわけではありません。いくつかの意識的な戦略を実行することで、健康的なバランスを維持できます。このセクションでは、睡眠を妨げることなく、ゲーム習慣を管理するための実用的なヒントを提供します。これらのうち、あなたのルーティンに組み込めるものを検討してください。",
                 checklistTitle: "あなたの健康的なゲームチェックリスト：",
-                strategy1: "就寝前の「スクリーンなし」ルールを確立する（1〜2時間前）",
+                strategy1: "就寝前の「スクリーンなし」」ルールを確立する（1〜2時間前）",
                 strategy2: "夕方にはブルーライトフィルターまたはメガネを使用する",
                 strategy3: "特に平日には、ゲームの時間制限を設定し、それを守る",
                 strategy4: "リラックスできる就寝前のルーティンを作成する（読書、入浴、静かな音楽など）",
@@ -422,7 +464,11 @@
                 conclusionText1: "ビデオゲームは、興奮、挑戦、そしてつながりの世界を提供します。どんな魅力的な活動と同様に、適度さと意識が、それらがあなたの人生において肯定的な力であり続けることを確実にする鍵です。ゲームがあなたの睡眠にどのように影響するかを理解することは、より健康的な習慣を築くための最初のステップです。",
                 conclusionText2: "時間制限を設定したり、就寝前にスクリーンフリーの落ち着いた時間を作ったり、ゲームコンテンツを意識したりするなどの戦略を実行することで、睡眠の重要な回復力を犠牲にすることなくゲームを楽しみ続けることができます。睡眠を優先することは、あなたの全体的な健康、気分、パフォーマンスへの投資です。バーチャルな冒険と日常生活の両方で成功できるバランスを目指しましょう。",
                 footerCopyright: "&copy; <span id=\"currentYear\"></span> インタラクティブガイド：睡眠とゲーム。すべての権利を留保します（教育目的）。",
-                footerAttribution: "「睡眠とビデオゲームの関係」プレゼンテーションからコンテンツを改変。"
+                footerAttribution: "「睡眠とビデオゲームの関係」プレゼンテーションからコンテンツを改変。",
+                passwordPromptTitle: "パスワードを入力してください",
+                passwordPromptSubtitle: "コンテンツにアクセスするにはパスワードを入力してください。",
+                passwordSubmitButton: "入力",
+                passwordIncorrect: "パスワードが正しくありません。もう一度お試しください。",
             }
         };
 
@@ -436,16 +482,24 @@
                 const key = el.dataset.key;
                 if (translations[currentLanguage][key]) {
                     if (typeof translations[currentLanguage][key] === 'function') {
-                        // Handle dynamic text like feedbackSaved
                         const count = Array.from(document.querySelectorAll('#strategies-checklist input[type="checkbox"]:checked')).length;
                         el.textContent = translations[currentLanguage][key](count);
                     } else {
-                        el.textContent = translations[currentLanguage][key];
+                        // For the footer copyright, use innerHTML to correctly render the &copy; and span for year
+                        if (key === 'footerCopyright') {
+                            el.innerHTML = translations[currentLanguage][key].replace('<span id="currentYear"></span>', `<span id="currentYear">${new Date().getFullYear()}</span>`);
+                        } else {
+                            el.textContent = translations[currentLanguage][key];
+                        }
                     }
                 }
             });
 
-            // Update consequence detail texts
+            const passwordInput = document.getElementById('password-input');
+            if (passwordInput) {
+                passwordInput.placeholder = ''; // Ensure no placeholder is set
+            }
+
             const consequenceItems = document.querySelectorAll('.consequence-item');
             consequenceItems.forEach(item => {
                 const detailElement = item.querySelector('.consequence-detail');
@@ -454,7 +508,6 @@
                 }
             });
 
-            // Update quick fact toggle text
             const quickFactToggles = document.querySelectorAll('.quick-fact-toggle');
             quickFactToggles.forEach(toggle => {
                 const targetId = toggle.dataset.target;
@@ -464,12 +517,10 @@
                 }
             });
 
-            // Re-render charts with updated labels
             renderCharts();
         }
 
         function renderCharts() {
-            // Destroy existing chart instances if they exist
             if (timeDisplacementChartInstance) {
                 timeDisplacementChartInstance.destroy();
             }
@@ -477,7 +528,6 @@
                 consequencesChartInstance.destroy();
             }
 
-            // Time Displacement Chart
             const tdCtx = document.getElementById('timeDisplacementChart')?.getContext('2d');
             if (tdCtx) {
                 timeDisplacementChartInstance = new Chart(tdCtx, {
@@ -530,7 +580,6 @@
                 });
             }
 
-            // Consequences Chart (Radar)
             const consCtx = document.getElementById('consequencesChart')?.getContext('2d');
             if (consCtx) {
                 consequencesChartInstance = new Chart(consCtx, {
@@ -582,7 +631,64 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Mobile menu toggle
+            const passwordOverlay = document.getElementById('password-overlay');
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmitButton = document.getElementById('password-submit');
+            const passwordMessage = document.getElementById('password-message');
+            const mainContentWrapper = document.getElementById('main-content-wrapper');
+            const correctPassword = '000'; // Password reverted to "000"
+
+            const passwordLanguageSwitcher = document.getElementById('password-language-switcher');
+            const languageSwitcher = document.getElementById('language-switcher');
+            const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher');
+
+            function setLanguage(lang) {
+                currentLanguage = lang;
+                updateContent(); // This updates all data-key elements and re-renders charts
+                if (languageSwitcher) languageSwitcher.value = lang;
+                if (mobileLanguageSwitcher) mobileLanguageSwitcher.value = lang;
+                if (passwordLanguageSwitcher) passwordLanguageSwitcher.value = lang;
+                document.documentElement.lang = lang;
+            }
+
+            // Initial content update for password overlay elements (before main content is shown)
+            currentLanguage = 'en'; // Default to English for the password prompt initially
+            const passwordPromptTitle = document.querySelector('#password-overlay [data-key="passwordPromptTitle"]');
+            if (passwordPromptTitle) passwordPromptTitle.textContent = translations[currentLanguage].passwordPromptTitle;
+            const passwordPromptSubtitle = document.querySelector('#password-overlay [data-key="passwordPromptSubtitle"]');
+            if (passwordPromptSubtitle) passwordPromptSubtitle.textContent = translations[currentLanguage].passwordPromptSubtitle;
+            const passwordSubmitButtonText = document.querySelector('#password-overlay [data-key="passwordSubmitButton"]');
+            if (passwordSubmitButtonText) passwordSubmitButtonText.textContent = translations[currentLanguage].passwordSubmitButton;
+            if (passwordInput) {
+                passwordInput.placeholder = ''; // Ensure no placeholder is set
+            }
+            if (passwordLanguageSwitcher) passwordLanguageSwitcher.value = currentLanguage;
+
+
+            function checkPassword() {
+                if (passwordInput.value === correctPassword) {
+                    passwordOverlay.classList.add('hidden');
+                    mainContentWrapper.classList.remove('hidden');
+                    const selectedLangOnPasswordPage = passwordLanguageSwitcher ? passwordLanguageSwitcher.value : 'en';
+                    setLanguage(selectedLangOnPasswordPage);
+                    window.addEventListener('scroll', changeLinkState);
+                } else {
+                    passwordMessage.textContent = translations[currentLanguage].passwordIncorrect;
+                    passwordInput.value = '';
+                }
+            }
+
+            if (passwordSubmitButton) {
+                passwordSubmitButton.addEventListener('click', checkPassword);
+            }
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        checkPassword();
+                    }
+                });
+            }
+
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuButton && mobileMenu) {
@@ -592,19 +698,6 @@
                     mobileMenu.classList.toggle('hidden');
                     mobileMenuButton.querySelectorAll('svg').forEach(svg => svg.classList.toggle('hidden'));
                 });
-            }
-
-            // Language switcher
-            const languageSwitcher = document.getElementById('language-switcher');
-            const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher');
-
-            function setLanguage(lang) {
-                currentLanguage = lang;
-                updateContent();
-                // Sync dropdowns
-                if (languageSwitcher) languageSwitcher.value = lang;
-                if (mobileLanguageSwitcher) mobileLanguageSwitcher.value = lang;
-                document.documentElement.lang = lang; // Set HTML lang attribute
             }
 
             if (languageSwitcher) {
@@ -618,27 +711,6 @@
                 });
             }
 
-            // Initialize content with default language (English)
-            setLanguage('en');
-
-            // Smooth scrolling for nav links & active link highlighting
-            const navLinks = document.querySelectorAll('nav a[href^="#"]');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                        // Close mobile menu if open
-                        if (!mobileMenu.classList.contains('hidden')) {
-                           mobileMenuButton.click();
-                        }
-                    }
-                });
-            });
-            
-            // Active link highlighting on scroll
             const sections = document.querySelectorAll('main section');
             const navbarLinks = document.querySelectorAll('#navbar a.nav-link');
 
@@ -651,11 +723,7 @@
                      navbarLinks[index].classList.add('active');
                 }
             }
-            changeLinkState(); // Initial call
-            window.addEventListener('scroll', changeLinkState);
 
-
-            // Quick Fact Toggle
             const quickFactToggles = document.querySelectorAll('.quick-fact-toggle');
             quickFactToggles.forEach(toggle => {
                 toggle.addEventListener('click', () => {
@@ -668,7 +736,6 @@
                 });
             });
 
-            // Consequences List Item Toggle
             const consequenceItems = document.querySelectorAll('.consequence-item');
             consequenceItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -679,7 +746,6 @@
                 });
             });
             
-            // Strategies Checklist Save
             const saveStrategiesButton = document.getElementById('save-strategies-button');
             const strategiesFeedback = document.getElementById('strategies-feedback');
             if (saveStrategiesButton && strategiesFeedback) {
@@ -690,8 +756,7 @@
                 });
             }
 
-            // Set current year in footer
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            // The currentYear is now set inside updateContent for language handling
         });
     </script>
 </body>

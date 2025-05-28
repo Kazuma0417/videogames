@@ -6,16 +6,6 @@
     <title>Sleep, Video Games & You: An Interactive Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Visualization & Content Choices: 
-        - Report Info: General introduction to video games and sleep. -> Goal: Set context. -> Viz/Method: Text block. -> Interaction: None. -> Justification: Standard intro.
-        - Report Info: Blue Light Exposure. -> Goal: Explain melatonin suppression. -> Viz/Method: Text + Unicode icon (💡). -> Interaction: Toggle for 'Quick Fact'. -> Justification: Concise explanation with an engaging reveal.
-        - Report Info: Cognitive Arousal. -> Goal: Explain heightened alertness. -> Viz/Method: Text + Unicode icon (🧠). -> Interaction: None. -> Justification: Clear, direct information.
-        - Report Info: Time Displacement. -> Goal: Illustrate sleep sacrifice. -> Viz/Method: Text + Unicode icon (⏰) + Chart.js Bar Chart. -> Interaction: Chart displays example data. -> Justification: Visualizes the trade-off. -> Library: Chart.js.
-        - Report Info: Content and Emotional Impact. -> Goal: Explain how game content affects sleep. -> Viz/Method: Text + Unicode icon (😟). -> Interaction: None. -> Justification: Clear, direct information.
-        - Report Info: Negative Consequences list. -> Goal: Inform about risks. -> Viz/Method: HTML list + Chart.js Radar Chart. -> Interaction: Clickable items for more detail (text reveal), Radar chart shows illustrative severity. -> Justification: Combines detailed info with a visual summary of impact. -> Library: Chart.js.
-        - Report Info: Strategies list. -> Goal: Provide actionable solutions. -> Viz/Method: Interactive HTML checklist. -> Interaction: Users can check/uncheck strategies. -> Justification: Promotes active engagement and self-commitment. -> Method: HTML + JS.
-        - Report Info: Conclusion. -> Goal: Summarize and call to action. -> Viz/Method: Text block. -> Interaction: None. -> Justification: Standard conclusion.
-        CONFIRMING NO SVG/Mermaid. -->
     <style>
         body {
             font-family: 'Inter', sans-serif; /* Tailwind's default sans-serif is fine, Inter is a good explicit choice */
@@ -217,7 +207,7 @@
                                 <div class="chart-container mt-4">
                                     <canvas id="timeDisplacementChart"></canvas>
                                 </div>
-                                 <p class="text-xs text-center text-gray-500 mt-2" data-key="timeChartCaption">Illustrative chart showing how gaming can reduce sleep hours.</p>
+                                   <p class="text-xs text-center text-gray-500 mt-2" data-key="timeChartCaption">Illustrative chart showing how gaming can reduce sleep hours.</p>
                             </div>
                         </div>
                     </div>
@@ -256,14 +246,14 @@
                                 <strong data-key="consequence4Strong">Reduced Performance</strong>
                                 <div class="consequence-detail hidden" data-key="consequence4Detail">Lower grades in school, reduced productivity at work, and difficulty meeting daily responsibilities.</div>
                             </li>
-                             <li class="consequence-item" data-key="consequence5" data-detail-en="Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities." data-detail-ja="反応速度の低下や判断力の低下は、運転中やその他の日常活動における事故のリスクを高める可能性があります。">
+                               <li class="consequence-item" data-key="consequence5" data-detail-en="Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities." data-detail-ja="反応速度の低下や判断力の低下は、運転中やその他の日常活動における事故のリスクを高める可能性があります。">
                                 <strong data-key="consequence5Strong">Increased Accidents</strong>
                                 <div class="consequence-detail hidden" data-key="consequence5Detail">Slower reaction times and impaired judgment can increase the risk of accidents, whether driving or in other daily activities.</div>
                             </li>
                         </ul>
                     </div>
                     <div class="card">
-                         <h3 class="text-xl font-semibold mb-4 text-center text-gray-800" data-key="impactSeverityTitle">Illustrative Impact Severity</h3>
+                           <h3 class="text-xl font-semibold mb-4 text-center text-gray-800" data-key="impactSeverityTitle">Illustrative Impact Severity</h3>
                         <div class="chart-container">
                             <canvas id="consequencesChart"></canvas>
                         </div>
@@ -450,7 +440,7 @@
                 strategiesSectionTitle: "健康的なゲーム習慣のための戦略",
                 strategiesIntro: "ビデオゲームを楽しむことと質の良い睡眠をとることは、必ずしも両立しないわけではありません。いくつかの意識的な戦略を実行することで、健康的なバランスを維持できます。このセクションでは、睡眠を妨げることなく、ゲーム習慣を管理するための実用的なヒントを提供します。これらのうち、あなたのルーティンに組み込めるものを検討してください。",
                 checklistTitle: "あなたの健康的なゲームチェックリスト：",
-                strategy1: "就寝前の「スクリーンなし」」ルールを確立する（1〜2時間前）",
+                strategy1: "就寝前の「スクリーンなし」ルールを確立する（1〜2時間前）",
                 strategy2: "夕方にはブルーライトフィルターまたはメガネを使用する",
                 strategy3: "特に平日には、ゲームの時間制限を設定し、それを守る",
                 strategy4: "リラックスできる就寝前のルーティンを作成する（読書、入浴、静かな音楽など）",
@@ -495,10 +485,13 @@
                 }
             });
 
+            // Update placeholder for password input if it exists
             const passwordInput = document.getElementById('password-input');
             if (passwordInput) {
-                passwordInput.placeholder = ''; // Ensure no placeholder is set
+                // No placeholder is needed, as it was intentionally set to empty
+                // passwordInput.placeholder = translations[currentLanguage].passwordInputPlaceholder || '';
             }
+
 
             const consequenceItems = document.querySelectorAll('.consequence-item');
             consequenceItems.forEach(item => {
@@ -647,22 +640,38 @@
                 updateContent(); // This updates all data-key elements and re-renders charts
                 if (languageSwitcher) languageSwitcher.value = lang;
                 if (mobileLanguageSwitcher) mobileLanguageSwitcher.value = lang;
-                if (passwordLanguageSwitcher) passwordLanguageSwitcher.value = lang;
+                if (passwordLanguageSwitcher) passwordLanguageSwitcher.value = lang; // Keep password switcher in sync
                 document.documentElement.lang = lang;
             }
 
+            // Function to update only the password overlay content
+            function updatePasswordOverlayContent(lang) {
+                const passwordPromptTitle = document.querySelector('#password-overlay [data-key="passwordPromptTitle"]');
+                if (passwordPromptTitle) passwordPromptTitle.textContent = translations[lang].passwordPromptTitle;
+                const passwordPromptSubtitle = document.querySelector('#password-overlay [data-key="passwordPromptSubtitle"]');
+                if (passwordPromptSubtitle) passwordPromptSubtitle.textContent = translations[lang].passwordPromptSubtitle;
+                const passwordSubmitButtonText = document.querySelector('#password-overlay [data-key="passwordSubmitButton"]');
+                if (passwordSubmitButtonText) passwordSubmitButtonText.textContent = translations[lang].passwordSubmitButton;
+                const passwordMessageElement = document.getElementById('password-message');
+                if (passwordMessageElement && passwordMessageElement.textContent) { // Only update if there's a message
+                    passwordMessageElement.textContent = translations[lang].passwordIncorrect;
+                }
+            }
+
+
             // Initial content update for password overlay elements (before main content is shown)
             currentLanguage = 'en'; // Default to English for the password prompt initially
-            const passwordPromptTitle = document.querySelector('#password-overlay [data-key="passwordPromptTitle"]');
-            if (passwordPromptTitle) passwordPromptTitle.textContent = translations[currentLanguage].passwordPromptTitle;
-            const passwordPromptSubtitle = document.querySelector('#password-overlay [data-key="passwordPromptSubtitle"]');
-            if (passwordPromptSubtitle) passwordPromptSubtitle.textContent = translations[currentLanguage].passwordPromptSubtitle;
-            const passwordSubmitButtonText = document.querySelector('#password-overlay [data-key="passwordSubmitButton"]');
-            if (passwordSubmitButtonText) passwordSubmitButtonText.textContent = translations[currentLanguage].passwordSubmitButton;
-            if (passwordInput) {
-                passwordInput.placeholder = ''; // Ensure no placeholder is set
-            }
+            updatePasswordOverlayContent(currentLanguage); // Call dedicated function for password overlay
             if (passwordLanguageSwitcher) passwordLanguageSwitcher.value = currentLanguage;
+
+            // Event listener for password language switcher
+            if (passwordLanguageSwitcher) {
+                passwordLanguageSwitcher.addEventListener('change', (event) => {
+                    const newLang = event.target.value;
+                    currentLanguage = newLang; // Update global currentLanguage
+                    updatePasswordOverlayContent(newLang); // Update password overlay
+                });
+            }
 
 
             function checkPassword() {
@@ -670,7 +679,7 @@
                     passwordOverlay.classList.add('hidden');
                     mainContentWrapper.classList.remove('hidden');
                     const selectedLangOnPasswordPage = passwordLanguageSwitcher ? passwordLanguageSwitcher.value : 'en';
-                    setLanguage(selectedLangOnPasswordPage);
+                    setLanguage(selectedLangOnPasswordPage); // Set the language for the main content based on the password page selection
                     window.addEventListener('scroll', changeLinkState);
                 } else {
                     passwordMessage.textContent = translations[currentLanguage].passwordIncorrect;
